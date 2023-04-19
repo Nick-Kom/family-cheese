@@ -32,41 +32,45 @@ export default function SignIn() {
 	}
 
 	return (
-		<main className="form-signin-wrapper">
-			<form onSubmit={handleSubmit}>
-				<h1 className="h3 mb-3 fw-normal text-center">Please sign in</h1>
+		<div className="container">
+			<div className="row justify-content-center align-content-center" style={{ height: "100vh" }}>
+				<div className="col col-10 col-md-8 col-lg-4">
+					<form onSubmit={handleSubmit}>
+						<h1 className="h3 mb-3 fw-normal text-center">Please sign in</h1>
 
-				<div className="form-floating">
-					<input
-						type="email"
-						className="form-control"
-						id="floatingInput"
-						placeholder="name@example.com"
-						value={email}
-						onChange={e => {
-							setEmail(e.target.value)
-						}}
-						data-temp-mail-org="0"
-					/>
-					<label htmlFor="floatingInput">Email address</label>
+						<div className="form-floating">
+							<input
+								type="email"
+								className="form-control"
+								id="floatingInput"
+								placeholder="name@example.com"
+								value={email}
+								onChange={e => {
+									setEmail(e.target.value)
+								}}
+								data-temp-mail-org="0"
+							/>
+							<label htmlFor="floatingInput">Email address</label>
+						</div>
+						<div className="form-floating mt-3">
+							<input
+								type="password"
+								className="form-control"
+								id="floatingPassword"
+								placeholder="Password"
+								value={password}
+								onChange={e => {
+									setPassword(e.target.value)
+								}}
+							/>
+							<label htmlFor="floatingPassword">Password</label>
+						</div>
+						<button className="w-100 mt-3 btn btn-lg btn-primary" type="submit">
+							Sign in
+						</button>
+					</form>
 				</div>
-				<div className="form-floating mt-3">
-					<input
-						type="password"
-						className="form-control"
-						id="floatingPassword"
-						placeholder="Password"
-						value={password}
-						onChange={e => {
-							setPassword(e.target.value)
-						}}
-					/>
-					<label htmlFor="floatingPassword">Password</label>
-				</div>
-				<button className="w-100 mt-3 btn btn-lg btn-primary" type="submit">
-					Sign in
-				</button>
-			</form>
-		</main>
+			</div>
+		</div>
 	)
 }
