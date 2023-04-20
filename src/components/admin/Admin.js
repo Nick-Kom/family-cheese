@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { auth } from "../../middleware/firebase"
 import Product from "../../components/admin/Product"
+import AddProductModal from "./AddProductModal"
 
 export default function Admin({ products }) {
 	const navigate = useNavigate()
@@ -44,6 +45,12 @@ export default function Admin({ products }) {
 
 			<main>
 				<div className="container mt-5 p-0">
+					<div className="row justify-content-center align-content-center">
+						<div className="col col-12 text-end">
+							<AddProductModal></AddProductModal>
+						</div>
+					</div>
+
 					{products.length ? (
 						<div className="row justify-content-center align-content-center">
 							<div className="col col-12">

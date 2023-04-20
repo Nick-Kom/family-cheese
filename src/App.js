@@ -33,8 +33,10 @@ export default function App() {
 				setAuthenticated(false)
 			}
 		})
+	}, [])
 
-		onSnapshot(productsCollectionRef(app), querySnapshot => {
+	useEffect(() => {
+		const unsubscribe = onSnapshot(productsCollectionRef(app), querySnapshot => {
 			const updatedProducts = querySnapshot.docs.map(docSnapshot => ({
 				...docSnapshot.data(),
 				id: docSnapshot.id
@@ -42,6 +44,10 @@ export default function App() {
 			setProducts(updatedProducts)
 			console.log(updatedProducts)
 		})
+
+		return () => {
+			unsubscribe()
+		}
 	}, [])
 
 	return (
