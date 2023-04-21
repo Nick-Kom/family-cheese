@@ -44,7 +44,7 @@ export default function ChangeProductModal({ product, show, setShow }) {
 					<Container>
 						<Row>
 							<Col xs={12} md={4} className="d-flex flex-column align-content-center">
-								<Image src={product.img} responsive></Image>
+								<Image src={product.img}></Image>
 								<Button variant="outline-primary">update image</Button>
 							</Col>
 							<Col xs={12} md={8}>

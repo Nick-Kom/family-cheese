@@ -2,8 +2,13 @@ import { useNavigate } from "react-router-dom"
 import { auth } from "../../middleware/firebase"
 import Product from "../../components/admin/Product"
 import AddProductModal from "./AddProductModal"
+import { useContext } from "react"
+import { LoadingProductsContext, ProductsContext } from "../../context/MainContext"
 
-export default function Admin({ products }) {
+export default function Admin() {
+	const loading = useContext(LoadingProductsContext)
+	const products = useContext(ProductsContext)
+
 	const navigate = useNavigate()
 
 	const onMainPageNavigate = event => {
@@ -73,7 +78,7 @@ export default function Admin({ products }) {
 							</div>
 						</div>
 					) : (
-						<div className="text-center h3">Loading...</div>
+						<div className="text-center h3">{loading ? "Loading..." : "No Products"}</div>
 					)}
 				</div>
 			</main>

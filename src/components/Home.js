@@ -1,8 +1,13 @@
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar"
 import Product from "../components/Product"
+import { LoadingProductsContext, ProductsContext } from "../context/MainContext"
+import React, { useContext } from "react"
 
-export default function Home({ products }) {
+export default function Home() {
+	const products = useContext(ProductsContext)
+	const loading = useContext(LoadingProductsContext)
+
 	return (
 		<div className="home-page">
 			<div className="home-page-wrapper">
@@ -11,7 +16,7 @@ export default function Home({ products }) {
 					products.map(product => <Product key={product.id} />)
 				) : (
 					<div className="h1 text-center" style={{ height: "100vh" }}>
-						Loading...
+						{loading ? "Loading..." : "No Products"}
 					</div>
 				)}
 				<Footer />

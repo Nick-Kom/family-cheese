@@ -1,8 +1,5 @@
 import "./App.css"
 
-import { app } from "./middleware/firebase"
-import { onSnapshot } from "firebase/firestore"
-
 import Home from "./components/Home"
 import Admin from "./components/admin/Admin"
 import SignIn from "./components/admin/SignIn"
@@ -14,12 +11,14 @@ import { BrowserRouter as Router } from "react-router-dom"
 import { auth } from "./middleware/firebase"
 import { onAuthStateChanged } from "firebase/auth"
 
-import { productsCollectionRef } from "./middleware/bindings"
+import FirestoreService from "./services/FirestoreService"
+import { LoadingProductsContext, ProductsContext } from "./context/MainContext"
 
 export default function App() {
 	const [authenticated, setAuthenticated] = useState(false)
 	const [products, setProducts] = useState([])
-	//const [snapshots, setSnapshots] = useState([])
+	const [loadingProducts, setLoadingProducts] = useState(false)
+	const [snapshots, setSnapshots] = useState({})
 
 	useEffect(() => {
 		onAuthStateChanged(auth, user => {
@@ -36,29 +35,34 @@ export default function App() {
 	}, [])
 
 	useEffect(() => {
-		const unsubscribe = onSnapshot(productsCollectionRef(app), querySnapshot => {
+		setLoadingProducts(true)
+		FirestoreService.getAllProductsSnapshotCallback(querySnapshot => {
 			const updatedProducts = querySnapshot.docs.map(docSnapshot => ({
 				...docSnapshot.data(),
 				id: docSnapshot.id
 			}))
+			console.log("updatedProducts", updatedProducts)
 			setProducts(updatedProducts)
-			console.log(updatedProducts)
 		})
+			.then(unsubscribe => setSnapshots({ productsSnapshot: unsubscribe }))
+			.finally(() => setLoadingProducts(false))
 
-		return () => {
-			unsubscribe()
-		}
+		return () => snapshots.productsSnapshot()
 	}, [])
 
 	return (
 		<Router>
 			<div>
 				<section>
-					<Routes>
-						<Route path="/" element={<Home products={products} />} />
-						{authenticated && <Route path="/admin" element={<Admin products={products} />} />}
-						<Route path="/signin" element={<SignIn />} />
-					</Routes>
+					<ProductsContext.Provider value={products}>
+						<LoadingProductsContext.Provider value={loadingProducts}>
+							<Routes>
+								<Route path="/" element={<Home />} />
+								{authenticated && <Route path="/admin" element={<Admin />} />}
+								<Route path="/signin" element={<SignIn />} />
+							</Routes>
+						</LoadingProductsContext.Provider>
+					</ProductsContext.Provider>
 				</section>
 			</div>
 		</Router>
