@@ -1,7 +1,7 @@
 import { useState } from "react"
-import ChangeProductModal from "./ChangeProductModal"
 import Button from "react-bootstrap/Button"
 import FirebaseService from "../../services/FirestoreService"
+import ChangeProductModal from "./ChangeProductModal"
 
 export default function Product({ product, index }) {
 	const [showUpdateModal, setShowUpdateModal] = useState(false)
@@ -14,7 +14,7 @@ export default function Product({ product, index }) {
 	const handleChangeBtnClick = e => {
 		e.preventDefault()
 		e.stopPropagation()
-		console.log("onBtnClick")
+		console.log("onBtnChangeClick")
 		setShowUpdateModal(true)
 	}
 	const handleDeleteProduct = async e => {
@@ -46,7 +46,11 @@ export default function Product({ product, index }) {
 						Change
 					</Button>
 
-					<button type="button" className="btn btn-outline-danger btn-sm ms-3" onClick={handleDeleteProduct}>
+					<button
+						type="button"
+						className="btn btn-outline-danger btn-sm ms-xl-3"
+						onClick={handleDeleteProduct}
+					>
 						Delete
 					</button>
 				</td>

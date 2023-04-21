@@ -1,5 +1,4 @@
 import React from "react"
-import Logo from "../assets/Logo.svg"
 import { useNavigate } from "react-router-dom"
 
 export default function Navbar() {
@@ -12,8 +11,8 @@ export default function Navbar() {
 
 	return (
 		<nav>
-			<div className="nav-logo-container">
-				<img src={Logo} alt="" />
+			<div className="h1 fw-bold text-uppercase" style={{ letterSpacing: "4px" }}>
+				<span style={{ color: "#4c4c4c" }}>Family</span> <span style={{ color: "orange" }}>Cheese</span>
 			</div>
 			<div className="navbar-links-container">
 				<button className="primary-button" onClick={onSignInNavigate}>

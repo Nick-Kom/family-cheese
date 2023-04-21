@@ -1,11 +1,11 @@
 import React, { useState } from "react"
-import Button from "react-bootstrap/Button"
 import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Container from "react-bootstrap/Container"
-import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
+import Form from "react-bootstrap/Form"
+import Modal from "react-bootstrap/Modal"
 import Image from "react-bootstrap/Image"
+import Button from "react-bootstrap/Button"
+import Container from "react-bootstrap/Container"
 import FirebaseService from "../../services/FirestoreService"
 
 export default function ChangeProductModal({ product, show, setShow }) {
@@ -51,7 +51,7 @@ export default function ChangeProductModal({ product, show, setShow }) {
 											required
 											name="title"
 											value={form.title}
-											onChange={e => handleChange(e)}
+											onChange={handleChange}
 										/>
 										<Form.Control.Feedback type="invalid">Title is required.</Form.Control.Feedback>
 									</Form.Group>
@@ -62,7 +62,7 @@ export default function ChangeProductModal({ product, show, setShow }) {
 											rows={3}
 											name="description"
 											value={form.description}
-											onChange={e => handleChange(e)}
+											onChange={handleChange}
 											required
 										/>
 										<Form.Control.Feedback type="invalid">Description is required.</Form.Control.Feedback>

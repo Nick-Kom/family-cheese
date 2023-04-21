@@ -1,6 +1,7 @@
-import { deleteDoc, onSnapshot, setDoc } from "firebase/firestore"
 import { productByIdRef, productsCollectionRef } from "../middleware/bindings"
-import { app } from "../middleware/firebase"
+import { app, auth } from "../middleware/firebase"
+import { signInWithEmailAndPassword } from "firebase/auth"
+import { addDoc, deleteDoc, onSnapshot, setDoc } from "firebase/firestore"
 
 function getAllProductsSnapshotCallback(callback) {
 	return new Promise(async (resolve, reject) => {
@@ -40,7 +41,48 @@ function changeProductById(changedProduct, id) {
 	})
 }
 
+function addProduct(createdProduct) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			await addDoc(productsCollectionRef(app), { ...createdProduct })
+			return resolve()
+		} catch (e) {
+			console.error("[ addProduct ]:", e)
+			return reject()
+		}
+	})
+}
+
+function logout() {
+	return new Promise(async (resolve, reject) => {
+		try {
+			await auth.signOut()
+			return resolve()
+		} catch (e) {
+			console.error("[ logout ]:", e)
+			return reject()
+		}
+	})
+}
+
+function signIn(email, password) {
+	return new Promise(async (resolve, reject) => {
+		try {
+			const userCredential = await signInWithEmailAndPassword(auth, email, password)
+			return resolve(userCredential)
+		} catch (e) {
+			const errorCode = e.code
+			const errorMessage = e.message
+			console.log("[ signIn ]:", errorCode, errorMessage)
+			return reject()
+		}
+	})
+}
+
 const FirestoreService = {
+	signIn,
+	logout,
+	addProduct,
 	changeProductById,
 	deleteProductById,
 	getAllProductsSnapshotCallback

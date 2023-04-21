@@ -43,11 +43,10 @@ export default function App() {
 			}))
 			console.log("updatedProducts", updatedProducts)
 			setProducts(updatedProducts)
+			setLoadingProducts(false)
+		}).then(unsubscribe => {
+			unsubscribeProducts = unsubscribe
 		})
-			.then(unsubscribe => {
-				unsubscribeProducts = unsubscribe
-			})
-			.finally(() => setLoadingProducts(false))
 
 		return unsubscribeProducts
 	}, [])

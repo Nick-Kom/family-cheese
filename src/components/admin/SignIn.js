@@ -1,34 +1,20 @@
 import * as React from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { signInWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../../middleware/firebase"
+import FirebaseService from "../../services/FirestoreService"
 
 export default function SignIn() {
 	const navigate = useNavigate()
 	const [email, setEmail] = useState("")
 	const [password, setPassword] = useState("")
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault()
-
-		console.log({
-			email,
-			password
-		})
-
-		signInWithEmailAndPassword(auth, email, password)
-			.then(userCredential => {
-				// Signed in
-				const user = userCredential.user
-				navigate("/admin")
-				console.log(user)
-			})
-			.catch(error => {
-				const errorCode = error.code
-				const errorMessage = error.message
-				console.log(errorCode, errorMessage)
-			})
+		console.log({ email, password })
+		const userCredential = await FirebaseService.signIn(email, password)
+		const user = userCredential.user
+		navigate("/admin")
+		console.log(user)
 	}
 
 	return (

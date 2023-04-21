@@ -1,13 +1,13 @@
 import React, { useState } from "react"
-import Button from "react-bootstrap/Button"
+
 import Col from "react-bootstrap/Col"
-import Form from "react-bootstrap/Form"
-import Container from "react-bootstrap/Container"
-import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
-import { productsCollectionRef } from "../../middleware/bindings"
-import { app } from "../../middleware/firebase"
-import { addDoc } from "firebase/firestore"
+import Form from "react-bootstrap/Form"
+import Modal from "react-bootstrap/Modal"
+import Button from "react-bootstrap/Button"
+import Container from "react-bootstrap/Container"
+
+import FirebaseService from "../../services/FirestoreService"
 
 export default function AddProductModal() {
 	const [validated, setValidated] = useState(false)
@@ -26,11 +26,9 @@ export default function AddProductModal() {
 	const handleSubmit = async event => {
 		event.preventDefault()
 
-		console.log(event.currentTarget.checkValidity())
 		setValidated(true)
 		if (event.currentTarget.checkValidity()) {
-			await addDoc(productsCollectionRef(app), { ...form })
-
+			await FirebaseService.addProduct(form)
 			setForm({
 				title: "",
 				description: ""

@@ -1,9 +1,10 @@
-import { useNavigate } from "react-router-dom"
-import { auth } from "../../middleware/firebase"
-import Product from "../../components/admin/Product"
-import AddProductModal from "./AddProductModal"
 import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
+
+import AddProductModal from "./AddProductModal"
+import Product from "../../components/admin/Product"
 import { LoadingProductsContext, ProductsContext } from "../../context/MainContext"
+import FirebaseService from "../../services/FirestoreService"
 
 export default function Admin() {
 	const loading = useContext(LoadingProductsContext)
@@ -16,16 +17,10 @@ export default function Admin() {
 		navigate("/")
 	}
 
-	const onLogout = event => {
-		auth.signOut().then(
-			function () {
-				console.log("Signed Out")
-				onMainPageNavigate(event)
-			},
-			function (error) {
-				console.error("Sign Out Error", error)
-			}
-		)
+	const onLogout = async event => {
+		await FirebaseService.logout()
+		console.log("Signed Out")
+		onMainPageNavigate(event)
 	}
 
 	return (
