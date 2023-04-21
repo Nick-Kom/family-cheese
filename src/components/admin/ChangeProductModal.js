@@ -5,10 +5,8 @@ import Form from "react-bootstrap/Form"
 import Container from "react-bootstrap/Container"
 import Modal from "react-bootstrap/Modal"
 import Row from "react-bootstrap/Row"
-import { productByIdRef } from "../../middleware/bindings"
-import { app } from "../../middleware/firebase"
-import { setDoc } from "firebase/firestore"
 import Image from "react-bootstrap/Image"
+import FirebaseService from "../../services/FirestoreService"
 
 export default function ChangeProductModal({ product, show, setShow }) {
 	const [validated, setValidated] = useState(false)
@@ -24,12 +22,9 @@ export default function ChangeProductModal({ product, show, setShow }) {
 	}
 	const handleSubmit = async event => {
 		event.preventDefault()
-
-		console.log(event.currentTarget.checkValidity())
 		setValidated(true)
 		if (event.currentTarget.checkValidity()) {
-			await setDoc(productByIdRef(app, product.id), form, { merge: true })
-
+			await FirebaseService.changeProductById(form, product.id)
 			setValidated(false)
 			handleClose()
 		}

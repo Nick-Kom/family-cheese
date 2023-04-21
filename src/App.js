@@ -18,7 +18,6 @@ export default function App() {
 	const [authenticated, setAuthenticated] = useState(false)
 	const [products, setProducts] = useState([])
 	const [loadingProducts, setLoadingProducts] = useState(false)
-	const [snapshots, setSnapshots] = useState({})
 
 	useEffect(() => {
 		onAuthStateChanged(auth, user => {
@@ -35,6 +34,7 @@ export default function App() {
 	}, [])
 
 	useEffect(() => {
+		let unsubscribeProducts
 		setLoadingProducts(true)
 		FirestoreService.getAllProductsSnapshotCallback(querySnapshot => {
 			const updatedProducts = querySnapshot.docs.map(docSnapshot => ({
@@ -44,10 +44,12 @@ export default function App() {
 			console.log("updatedProducts", updatedProducts)
 			setProducts(updatedProducts)
 		})
-			.then(unsubscribe => setSnapshots({ productsSnapshot: unsubscribe }))
+			.then(unsubscribe => {
+				unsubscribeProducts = unsubscribe
+			})
 			.finally(() => setLoadingProducts(false))
 
-		return () => snapshots.productsSnapshot()
+		return unsubscribeProducts
 	}, [])
 
 	return (

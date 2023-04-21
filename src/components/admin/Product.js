@@ -1,9 +1,7 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import ChangeProductModal from "./ChangeProductModal"
 import Button from "react-bootstrap/Button"
-import { deleteDoc } from "firebase/firestore"
-import { productByIdRef } from "../../middleware/bindings"
-import { app } from "../../middleware/firebase"
+import FirebaseService from "../../services/FirestoreService"
 
 export default function Product({ product, index }) {
 	const [showUpdateModal, setShowUpdateModal] = useState(false)
@@ -23,7 +21,7 @@ export default function Product({ product, index }) {
 		e.preventDefault()
 		e.stopPropagation()
 		console.log("onDelete")
-		await deleteDoc(productByIdRef(app, product.id))
+		await FirebaseService.deleteProductById(product.id)
 	}
 	return (
 		<>
