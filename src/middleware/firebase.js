@@ -1,17 +1,14 @@
 import { initializeApp } from "firebase/app"
-//import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth"
 
 const firebaseConfig = {
-	apiKey: "AIzaSyDDoF4hVEByUUIy7ehQQYiIVoN5EzXZLCY",
-	authDomain: "sweet-burger-zv.firebaseapp.com",
-	projectId: "sweet-burger-zv",
-	storageBucket: "sweet-burger-zv.appspot.com",
-	messagingSenderId: "913878154134",
-	appId: "1:913878154134:web:1019ae75e30c0533ffbbb7",
-	measurementId: "G-PZ7KBJSMTY"
+	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+	authDomain: process.env.REACT_APP_FIREBASE_AUTH,
+	projectId: process.env.REACT_APP_FIREBASE_PROJECT,
+	storageBucket: process.env.REACT_APP_FIREBASE_STORAGE,
+	messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_ID,
+	appId: process.env.REACT_APP_FIREBASE_APP_ID
 }
 
 export const app = initializeApp(firebaseConfig)
-//const analytics = getAnalytics(app);
 export const auth = getAuth(app)
